@@ -1,22 +1,43 @@
 ﻿#include <bits/stdc++.h>
 
 using namespace std;
+vector<vector<int>> g;
+vector<int> dist;
+vector<int> ans;
+
+void bfs(int u) {
+    queue<int> qu;
+    qu.push(u);
+    dist[u] = 0;
+    while (!qu.empty()) {
+        u = qu.front();
+        ans.push_back(u);
+        qu.pop();
+        for (auto v:g[u])
+            if (dist[v] == -1) {
+                dist[v] = dist[u] + 1;
+                qu.push(v);
+            }
+    }
+}
 
 int main() {
-    long long n, m;
-    cin >> n >> m;
-    long long ans = 1;
-    int deg = n;
-    while (deg) {
-        if (deg % 2 == 1) {
-            ans = (ans * n) % m;
-            deg--;
-        } else {
-            n = (n * n) % m;
-            deg /= 2;
-        }
+    int n, m, s;
+    cin >> n >> m >> s;
+    s--;
+    g.resize(n);
+    dist.resize(n, -1);
+    for (int i = 0; i < m; ++i) {
+        int u, v;
+        cin >> u >> v;
+        g[u - 1].push_back(v - 1);
+        g[v - 1].push_back(u - 1);
     }
 
-
-    cout << ans << "\n";
+    bfs(s);
+    cout << ans.size() << "\n";
+    for (int i = 0; i < ans.size(); ++i) {
+        cout << ans[i] + 1 << " ";
+    }
+    return 0;
 }

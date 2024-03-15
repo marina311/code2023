@@ -17,7 +17,7 @@ unsigned int set1(unsigned int mask, unsigned int i) { // ультимативн
 }
 
 unsigned int set0(unsigned int mask, unsigned int i) { // ультимативно ставит i-ый бит ка к 0. Можно намного лучше
-    return mask & ((unsigned int(-1)) - (1 << i));
+    return mask & ((int(-1)) - (1 << i));
 }
 
 signed main() {
@@ -46,9 +46,6 @@ signed main() {
             for (int j = 0; j < n; ++j) {
                 if (get(mask, j)) continue;
                 unsigned int new_mask = set1(mask, j);
-                if (new_mask == 7) {
-                    int x = 1;
-                }
                 if (!used[new_mask][j] || dp[new_mask][j] > dp[mask][last] + a[last][j]) {
                     used[new_mask][j] = true;
                     dp[new_mask][j] = dp[mask][last] + a[last][j];
